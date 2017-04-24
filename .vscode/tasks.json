@@ -18,7 +18,9 @@
         {
             "taskName": "pack",
             "args": [ 
-                "src/Jmw.Log4NetProvider/project.json"
+                "src/Jmw.Log4NetProvider/project.json",
+                "-c",
+                "Release"
             ],
             "isBuildCommand": false,
             "showOutput": "silent",
