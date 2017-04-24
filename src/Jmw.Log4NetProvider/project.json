@@ -2,7 +2,7 @@
   "title": "Log4NetProvider",
   "authors": [ "Jean-Marc Weeger" ],
   "description": "Log4Net provider for Net.Core logging system",
-  "version": "1.0.1.0",
+  "version": "1.0.2.0",
   "buildOptions": {
     "debugType": "portable",
     "xmlDoc": true,
