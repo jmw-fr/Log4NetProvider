@@ -5,6 +5,8 @@
 namespace Jmw.Log4netProvider
 {
     using System;
+    using System.IO;
+    using System.Reflection;
     using Microsoft.Extensions.Logging;
 
     /// <summary>
@@ -29,6 +31,7 @@ namespace Jmw.Log4netProvider
         /// <param name="loggerFactory">The logger factory to add Log4net to.</param>
         /// <param name="filename">The name of the file. This should be nex to the entry assembly.</param>
         /// <param name="watch">Should Log4net watch the config file for changes</param>
+        /// <returns>The logger factory</returns>
         public static ILoggerFactory AddLog4Net(this ILoggerFactory loggerFactory, string filename, bool watch = false)
         {
             Assembly entryAssembly = Assembly.GetEntryAssembly();
@@ -43,7 +46,8 @@ namespace Jmw.Log4netProvider
         /// <param name="loggerFactory">The logger factory to add Log4net to.</param>
         /// <param name="file">The file to laod config from.</param>
         /// <param name="watch">Should Log4net watch the config file for changes</param>
-        public static ILoggerFactory AddLog4Net(this ILoggerFactory loggerFactory , FileInfo file, bool watch = false)
+        /// <returns>The logger factory</returns>
+        public static ILoggerFactory AddLog4Net(this ILoggerFactory loggerFactory, FileInfo file, bool watch = false)
         {
             if (loggerFactory == null)
             {

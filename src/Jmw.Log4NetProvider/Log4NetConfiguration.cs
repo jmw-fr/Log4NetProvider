@@ -24,6 +24,9 @@ namespace Jmw.Log4netProvider
         /// </remarks>
         public static void Configure(FileInfo file, bool watch)
         {
+            Assembly entryAssembly = Assembly.GetEntryAssembly();
+            ILoggerRepository repository = LogManager.GetRepository(entryAssembly);
+
             if (file.Exists)
             {
                 if (watch)

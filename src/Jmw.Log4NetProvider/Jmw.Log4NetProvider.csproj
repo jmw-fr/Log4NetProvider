@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Log4Net provider for Net.Core logging system</Description>
+    <AssemblyTitle>Log4NetProvider</AssemblyTitle>
+    <VersionPrefix>1.0.2.0</VersionPrefix>
+    <Authors>Jean-Marc Weeger</Authors>
+    <TargetFramework>netstandard1.5</TargetFramework>
+    <DebugType>portable</DebugType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AssemblyName>Jmw.Log4NetProvider</AssemblyName>
+    <PackageId>Jmw.Log4NetProvider</PackageId>
+    <PackageReleaseNotes>Removing Stylecop dependency</PackageReleaseNotes>
+    <PackageIconUrl>https://jmw-fr.github.io/VarChecker/images/varchecker.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/jmw-fr/Log4NetProvider</PackageProjectUrl>
+    <PackageLicenseUrl>https://opensource.org/licenses/mit-license.php</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/jmw-fr/VarChecker</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.1" />
+    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.0">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>
