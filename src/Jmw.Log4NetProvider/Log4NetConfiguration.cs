@@ -22,16 +22,21 @@ namespace Jmw.Log4netProvider
         /// <para>The function firstly tries to configure log4net using a <c>log4net.config</c> file in the directory of the entry assembly using <c>log4net.Config.XmlConfigurator</c>.</para>
         /// <para>If no <c>log4net.config</c> file is found, <c>log4net.Config.BasicConfigurator</c> is used.</para>
         /// </remarks>
-        public static void Configure()
+        public static void Configure(FileInfo file, bool watch)
         {
             Assembly entryAssembly = Assembly.GetEntryAssembly();
             ILoggerRepository repository = LogManager.GetRepository(entryAssembly);
 
-            string log4netFileName = Path.Combine(Path.GetDirectoryName(entryAssembly.Location), "log4net.config");
-
-            if (File.Exists(log4netFileName))
+            if (file.Exists)
             {
-                XmlConfigurator.Configure(repository, new FileInfo(log4netFileName));
+                if (watch)
+                {
+                    XmlConfigurator.ConfigureAndWatch(repository, file);
+                }
+                else
+                {
+                    XmlConfigurator.Configure(repository, file);
+                }
             }
             else
             {

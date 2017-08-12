@@ -5,6 +5,8 @@
 namespace Jmw.Log4netProvider
 {
     using System;
+    using System.IO;
+    using System.Reflection;
     using Microsoft.Extensions.Logging;
 
     /// <summary>
@@ -20,12 +22,39 @@ namespace Jmw.Log4netProvider
         /// <seealso cref="Log4NetConfiguration" />
         public static ILoggerFactory AddLog4Net(this ILoggerFactory loggerFactory)
         {
+            return loggerFactory.AddLog4Net("log4net.config");
+        }
+
+        /// <summary>
+        ///   Add Log4Net Logger using the given config file.
+        /// </summary>
+        /// <param name="loggerFactory">The logger factory to add Log4net to.</param>
+        /// <param name="filename">The name of the file. This should be nex to the entry assembly.</param>
+        /// <param name="watch">Should Log4net watch the config file for changes</param>
+        /// <returns>The logger factory</returns>
+        public static ILoggerFactory AddLog4Net(this ILoggerFactory loggerFactory, string filename, bool watch = false)
+        {
+            Assembly entryAssembly = Assembly.GetEntryAssembly();
+            string log4netFileName = Path.Combine(Path.GetDirectoryName(entryAssembly.Location), filename);
+
+            return loggerFactory.AddLog4Net(new FileInfo(log4netFileName), watch);
+        }
+
+        /// <summary>
+        ///   Add Log4Net Logger using the given config file.
+        /// </summary>
+        /// <param name="loggerFactory">The logger factory to add Log4net to.</param>
+        /// <param name="file">The file to laod config from.</param>
+        /// <param name="watch">Should Log4net watch the config file for changes</param>
+        /// <returns>The logger factory</returns>
+        public static ILoggerFactory AddLog4Net(this ILoggerFactory loggerFactory, FileInfo file, bool watch = false)
+        {
             if (loggerFactory == null)
             {
                 throw new ArgumentNullException(nameof(loggerFactory));
             }
 
-            Log4NetConfiguration.Configure();
+            Log4NetConfiguration.Configure(file, watch);
 
             loggerFactory.AddProvider(new Jmw.Log4netProvider.Log4NetProvider());
 
