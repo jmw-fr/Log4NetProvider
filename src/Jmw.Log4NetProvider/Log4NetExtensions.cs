@@ -61,7 +61,7 @@ namespace Jmw.Log4netProvider
             Assembly entryAssembly = Assembly.GetEntryAssembly();
             ILoggerRepository repository = LogManager.GetRepository(entryAssembly);
 
-            if (File.Exists(file))
+            if (file.Exists)
             {
                 if (watch)
                 {
