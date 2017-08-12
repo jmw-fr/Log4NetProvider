@@ -28,6 +28,31 @@ namespace Jmw.Log4netProvider
         /// </remarks>
         public static ILoggerFactory AddLog4Net(this ILoggerFactory loggerFactory)
         {
+            return loggerFactory.AddLog4Net("log4net.config");
+        }
+
+        /// <summary>
+        ///   Add Log4Net Logger using the given config file.
+        /// </summary>
+        /// <param name="loggerFactory">The logger factory to add Log4net to.</param>
+        /// <param name="filename">The name of the file. This should be nex to the entry assembly.</param>
+        /// <param name="watch">Should Log4net watch the config file for changes</param>
+        public static ILoggerFactory AddLog4Net(this ILoggerFactory loggerFactory, string filename, bool watch = false)
+        {
+            Assembly entryAssembly = Assembly.GetEntryAssembly();
+            string log4netFileName = Path.Combine(Path.GetDirectoryName(entryAssembly.Location), filename);
+
+            return loggerFactory.AddLog4Net(new FileInfo(log4netFileName), watch);
+        }
+
+        /// <summary>
+        ///   Add Log4Net Logger using the given config file.
+        /// </summary>
+        /// <param name="loggerFactory">The logger factory to add Log4net to.</param>
+        /// <param name="file">The file to laod config from.</param>
+        /// <param name="watch">Should Log4net watch the config file for changes</param>
+        public static ILoggerFactory AddLog4Net(this ILoggerFactory loggerFactory , FileInfo file, bool watch = false)
+        {
             if (loggerFactory == null)
             {
                 throw new ArgumentNullException(nameof(loggerFactory));
@@ -36,11 +61,16 @@ namespace Jmw.Log4netProvider
             Assembly entryAssembly = Assembly.GetEntryAssembly();
             ILoggerRepository repository = LogManager.GetRepository(entryAssembly);
 
-            string log4netFileName = Path.Combine(Path.GetDirectoryName(entryAssembly.Location), "log4net.config");
-
-            if (File.Exists(log4netFileName))
+            if (file.Exists)
             {
-                XmlConfigurator.Configure(repository, new FileInfo(log4netFileName));
+                if (watch)
+                {
+                    XmlConfigurator.ConfigureAndWatch(repository, file);
+                }
+                else
+                {
+                    XmlConfigurator.Configure(repository, file);
+                }
             }
             else
             {
